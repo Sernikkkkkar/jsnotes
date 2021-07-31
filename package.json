@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "now-build": "npm run build && mv .vuepress/dist dist"
+    "now-build": "npm run build && mv docs/.vuepress/dist dist"
   },
   "devDependencies": {
     "vuepress": "^0.14.4"
