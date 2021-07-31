@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "vercel-build": "npm run build && mv docs/vpress/dist dist"
+    "vercel-build": "npm run build && mv .vpress/dist dist"
   },
   "devDependencies": {
     "vuepress": "^0.14.4"
