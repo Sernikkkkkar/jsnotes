@@ -2,7 +2,7 @@
 
 Представлен пример __hello world__ для vuepress
 
-In this example we will be deploying a simple "Hello World" example with Vuepress.
+
 
 ### Getting started with Vuepress
 
