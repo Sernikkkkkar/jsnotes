@@ -1,0 +1,258 @@
+﻿<div>
+ <button onclick='arr="Joey, Rachel, Monica, Chandler, Ross, Phoebe".split(",");alert(arr[0]);'>
+ Element 0
+ </button>
+</div>
+<div>
+ <button onclick='var arr="one,two three!four^five".split(/,| |!|\^/);alert(arr.join("\n"))'>
+  Элеметты массива
+ </button>
+</div>
+
+<div>
+ <script>
+// This is the function.
+String.prototype.format = function (args) {
+var str = this;
+return str.replace(String.prototype.format.regex, function(item) {
+var intVal = parseInt(item.substring(1, item.length - 1));
+var replace;
+if (intVal >= 0) {
+replace = args[intVal];
+} else if (intVal === -1) {
+replace = "{";
+} else if (intVal === -2) {
+replace = "}";
+} else {
+replace = "";
+}
+return replace;
+});
+};
+String.prototype.format.regex = new RegExp("{-?[0-9]+}", "g");
+</script>
+ <button  onclick='var str = "She {1} {0}{2} by the {0}{3}. {-1}^_^{-2}".format(["sea", "sells", "shells", "shore"]);;alert(str)'>
+  Formatted string
+ </button>
+ 
+</div>
+<div>
+ <button onclick='str="Привет мир";alert(str+"\n"+escape(str))'>
+ escape
+ </button>
+ <button onclick='var str="and%20bye";alert(str+"\n"+unescape(str))'>
+  unescape
+ </button>
+ <button onclick='alert(encodeURI("Привет мир"))'>
+  encodeURI
+ </button>
+  <button onclick='str="Hellp%20world";alert(str+"\n"+decodeURI(str))'>
+  decodeURI
+  </button>
+</div>
+
+
+<div>
+ <button onclick='alert("Hello world".slice(1,5))'>
+  slice
+ </button>
+</div>
+<div style="border-left: 5px solid #1E90FF;">
+ <button onclick='alert("ABC".charCodeAt(0));'>
+   char code
+ </button>
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s10" value="Hello Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s10").value;alert(str.codePointAt(1));alert(str.codePointAt(7));'>
+ char codePoint 
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s11" value="Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s11").value;alert("Символ 1 в строке : "+str[1]);'>
+ char value
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s12" value=65>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s12").value;alert("Символ  : "+String.fromCharCode(str));'>
+ code => symbol
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s12").value;alert(String.fromCodePoint(str));'>
+  code => symbol
+ </button>
+ &nbsp;&nbsp;&nbsp; Варианты ввода : 42, 0x404, 0x2F804
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s13" value="Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s13").value;alert(str.substring(0,3));'>
+ substring(0,3)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s13").value;alert(str.substring(3,0));'>
+ substring(3,0)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s13").value;alert(str.substring(4));'>
+ substring(4)
+ </button>
+ 
+</div>
+
+
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s14" value="Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s14").value;alert(str.substr(0,3));'>
+ substr(0,3)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s14").value;alert(str.substr(-3,3));'>
+ substr(-3,0)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s14").value;alert(str.substr(4));'>
+ substr(4)
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s16" value="Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s16").value;alert(str.toLowerCase());'>
+ toLowerCase()
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s16").value;alert(str.toUpperCase());'>
+ toUpperCase()
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s16").value;alert(str.toLocaleLowerCase());'>
+ toLocaleLowerCase()
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s16").value;alert(str.toLocaleUpperCase());'>
+ toLocaleUpperCase()
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s17" value="Привет">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s17").value;alert(str.concat(" и ", "пока"));'>
+ concat()
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s18" value="     foo bsr   ">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s18").value;alert(str.trim());'>
+ trim()
+ </button>
+ 
+</div>
+
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s19" value="Голубой кит">
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s19").value;alert(str.indexOf("Голубой"));'>
+ indexOf('Голубой')
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s19").value;alert(str.indexOf("Галу"));'>
+ indexOf('Гaлу')
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s19").value;alert(str.indexOf("кит", 0));'>
+ indexOf('кит', 0)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s19").value;alert(str.indexOf("кит", 9));'>
+ indexOf('кит', 9)
+ </button>
+ 
+</div>
+
+<div style="border-left: 5px solid #1E90FF;">
+
+ &nbsp;&nbsp;&nbsp;<input type="text" id="s20" value="канал">
+ &nbsp;&nbsp;&nbsp;<button style="background-color: #4C50AF;color: white;border:none;border-radius: 4px;padding: 12px 20px;" onclick='var str=document.getElementById("s20").value;alert(str.lastIndexOf("а"));'>
+ lastIndexOf('а')
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s20").value;alert(str.indexOf("Галу"));'>
+ indexOf('Гaлу')
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s20").value;alert(str.lastIndexOf("а",2));'>
+ lastIndexOf('а',2)
+ </button>
+ &nbsp;&nbsp;&nbsp;<button onclick='var str=document.getElementById("s20").value;alert(str.lastIndexOf("а",0));'>
+ lastIndexOf('а',0)
+ </button>
+ 
+</div>
+<div>
+<script type="text/javascript">
+function selectText(cls,num) {
+    if (document.selection) {
+        var range = document.body.createTextRange();
+        //range.moveToElementText(document.getElementById(containerid));
+        range.moveToElementText(document.getElementsByClassName(cls)[num]);
+        range.select();
+    } else if (window.getSelection()) {
+        var range = document.createRange();
+        //range.selectNode(document.getElementById(containerid));
+        range.selectNode(document.getElementsByClassName(cls)[num]);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        var html=window.getSelection().toString();
+        alert(html);
+        window.getSelection().removeAllRanges();
+        /*
+        var wnd=window.open("about:blank", "");
+        wnd.document.write(html);
+        wnd.document.close();
+        */
+        var x=window.open('','NewWin',
+            'toolbar=no,status=no,width=350,height=135');
+x.document.open().write(html);
+    }
+}
+
+</script>
+
+ <button onclick="alert(document.getElementsByClassName('first')[0].innerHTML);selectText('first',0)">
+ select
+ </button>
+ 
+</div>
+<pre id="selectable"  class='first'><code>
+&lt;div&gt;
+&lt;script&gt;
+//code example
+var i="hello"
+&lt;/script&gt;
+   &lt;button onclick='alert(i);'&gt;example&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+
+<div>
+ <script type="text/javascript">
+  function wOpen() {
+  var x=window.open('','NewWin',
+            'toolbar=no,status=no,width=350,height=135');
+x.document.open().write('content');
+
+  }
+ </script>
+ <button onclick="wOpen()">
+  window
+ </button>
+</div>
+
