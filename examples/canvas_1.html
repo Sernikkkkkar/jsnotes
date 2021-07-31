@@ -1,0 +1,41 @@
+﻿<html>
+   <head>
+	<meta charset="utf-8">
+	<title>Тег canvas</title>
+	<meta name="description" content="НTML, canvas,image,base64,png">
+
+</head>
+
+<body>
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+<button onclick='canvas_jpg()'>Click me</button>
+<h2>Рисунок</h2>
+<img  id='image' src=""/>
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+// Create gradient
+var grd = ctx.createLinearGradient(0,0,250,0);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+// Fill with gradient
+ctx.fillStyle = grd;
+ctx.fillRect(10,10,170,80);
+ctx.font = "30px Arial";
+ctx.strokeText("Hello World",10,50);
+function canvas_jpg(){
+  var canvas = document.getElementById("myCanvas");
+  var image = canvas.toDataURL("image/png");
+  alert(image)
+  //document.write('<img src="'+image+'"/>');
+  document.getElementById("image").src=image;
+  popup = window.open();
+  popup.document.write('<img src="'+image+'"/>');
+}
+</script>
+
+</body>
+</html>

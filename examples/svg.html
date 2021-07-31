@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<title>MindFusion JsDiagram - SVG</title>
+	<meta name="description" content="НTML, canvas,svg,diagram">
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="common/samples.js"></script>
+</head>
+<body>
+<div>
+		<canvas id="diagram" width="2100" height="2100">
+			This page requires a browser that supports HTML 5 Canvas element.
+		</canvas>
+</div>
+	
+	<script src="https://vuepress-2mvjfjyyu.now.sh/examples/MindFusion.Common.js" type="text/javascript"></script>
+	<script src="https://vuepress-2mvjfjyyu.now.sh/examples/MindFusion.Diagramming.js" type="text/javascript"></script>
+	<script type="text/javascript">
+var Events = MindFusion.Diagramming.Events;
+var Diagram = MindFusion.Diagramming.Diagram;
+var DiagramLink = MindFusion.Diagramming.DiagramLink;
+var ShapeNode = MindFusion.Diagramming.ShapeNode;
+var AnchorPattern = MindFusion.Diagramming.AnchorPattern;
+var AnchorPoint = MindFusion.Diagramming.AnchorPoint;
+var MarkStyle = MindFusion.Diagramming.MarkStyle;
+var Style = MindFusion.Diagramming.Style;
+var Theme = MindFusion.Diagramming.Theme;
+var SvgContent = MindFusion.Diagramming.SvgContent;
+
+var Rect = MindFusion.Drawing.Rect;
+
+var diagram = null;
+var bounds = new Rect(0, 0, 30, 6);
+
+anchorPattern = new AnchorPattern([
+      new AnchorPoint(50, 0, true, false, MarkStyle.Rectangle, "#ff0000", 1.5),
+      new AnchorPoint(0, 50, true, true, MarkStyle.Rectangle, "#008000", 1.5),
+      new AnchorPoint(100, 50, true, true, MarkStyle.Rectangle, "#008000", 1.5),
+      new AnchorPoint(50, 100, false, true, MarkStyle.Rectangle, "#008000", 1.5)
+ ]);
+
+$(document).ready(function (sender, args) {
+    // create a Diagram component that wraps the "diagram" canvas
+    diagram = MindFusion.AbstractionLayer.createControl(Diagram, null, null, null, $("#diagram")[0]);
+
+    diagram.setLinkHeadShapeSize(2);
+    diagram.setDefaultShape("Rectangle");
+    diagram.setRouteLinks(true);
+    diagram.setRoundedLinks(true);
+    diagram.setShowGrid(false);
+    diagram.setBackBrush("#e0e9e9");
+
+    //create mew theme
+    var theme = new Theme();
+    var shapeNodeStyle = new Style();
+    shapeNodeStyle.setBrush({ type: 'LinearGradientBrush', color1: '#e0e9e9', color2: '#616a7f', angle: 90 });
+    shapeNodeStyle.setStroke("#7F7F7F");
+    shapeNodeStyle.setTextColor("#585A5C");
+    shapeNodeStyle.setFontName("Verdana");
+    shapeNodeStyle.setFontSize(3);
+    shapeNodeStyle.setBackBrush("#e0e9e9");
+    theme.styles["std:ShapeNode"] = shapeNodeStyle;
+    diagram.setStyle(shapeNodeStyle);
+
+    diagram.setDefaultShape("Rectangle");
+    
+    //создание svg node
+    addNode(new Rect(35, 5, 45, 25), "electro/blank.svg",true);
+    addNode(new Rect(45, 45, 25, 25), "electro/capacitor.svg",true);
+    addNode(new Rect(10, 45, 25, 25), "electro/npn.svg",true);
+	
+    
+    
+    var nodes=diagram.nodes;
+    nodes[2].setAnchorPattern(anchorPattern);
+    nodes[1].setAnchorPattern(anchorPattern);
+    // поворот блока
+    nodes[2].setRotateText(false);
+    nodes[2].setRotationAngle(180)
+    nodes[1].setText('<b><i>C1</i></b>')
+    nodes[2].setText("<b><i>T1</i></b>")
+    nodes[0].setText("<h1>Заготовка для эл.схем</h1>")
+    
+    // Размещеие текста в верхнем правом углу
+	nodes[0].setEnableStyledText(true)
+	nodes[1].setEnableStyledText(true)
+	nodes[1].setTextAlignment(2);
+        nodes[1].setLineAlignment(0);
+        nodes[2].setEnableStyledText(true)
+	nodes[2].setTextAlignment(2);
+        nodes[2].setLineAlignment(0);
+        
+        var link = new DiagramLink(diagram, diagram.nodes[1], diagram.nodes[2]);
+	link.setVisible(true);
+	link.setHeadShape('none');
+	link.setStrokeThickness(3.0); //толщина линии
+	link.setPen("#000000"); //цвет линии
+	diagram.addItem(link);
+	
+});
+
+function addNode(bounds, filename, locked)
+{
+	var node = diagram.getFactory().createSvgNode(bounds);
+	node.setTransparent(true);
+	node.setLocked(locked);
+	var content = new SvgContent();
+	content.parse(filename);
+	node.setContent(content);
+}
+
+function addNode(bounds, filename, locked)
+{
+	var node = diagram.getFactory().createSvgNode(bounds);
+	node.setTransparent(true);
+	node.setLocked(locked);
+	var content = new SvgContent();
+	content.parse(filename);
+	node.setContent(content);
+}
+
+function addNodeClick()
+{
+	//var index = Math.floor((Math.random() * 7) + 1);
+	addNode(new Rect(55, 30, 25, 25), "electro/npn.svg" );
+}
+
+function resetClick()
+{
+	diagram.clearAll();
+}	
+	</script>
+</body>
+</html>

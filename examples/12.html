@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<style> 
+.tree-menu {
+    position:absolute;
+    width:100%;
+    top:0;
+    background-color:rgba(0, 255, 255, 0.95);
+}
+
+.portfolio-block {
+    position: relative;
+}
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+  
+  $(function(){
+  $(".btn").click(function() {
+   $(".tree-menu").toggle()
+  })
+  $(".tree-menu :header").click(function () {
+  var end=s=$(this).prop("tagName")
+  var t= $(this).next()
+  var child=t.prop("tagName")
+  if(t.css("HEIGHT")=="auto") vis=false;
+  else vis=true;
+  var len=$(".tree-menu :header").length
+  for (i=0;i<len;i++) {
+  var s1=t.prop("tagName")
+  
+  if (s<s1){
+   if(vis) {
+   if((t.css("HEIGHT")=="auto"))
+    t.show()
+   }
+   else{
+    if(s1>child) t.show()
+    else child=s1
+   }
+   t=t.next()
+   
+  }
+  else {
+  end=s1
+  //alert(t.css("visibility")); 
+  i=len
+  } 
+  }
+  $(this).nextUntil(end).toggle();
+   
+ });
+  })
+  </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 portfolio-block">
+        <button class="btn btn-primary" >Содержание</button>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 portfolio-block">
+            
+            
+            <div class="tree-menu btn-primary">
+                <h1 id="0">Header1_0</h1>
+    <h3 id="1">Header3_3</h3>
+    <h4 id="1_1">Header4_3</h4>
+   <h2 id="2">Header2_0</h2> 
+   <h2 id="3">Header2_1</h2>
+    <h3 id="4">Header3_0</h3>
+    <h4>Header4_0</h4>
+    <h5>Header5_0</h5>
+    
+   <h2 id="5">Header2_2</h2>
+    <h3 id="6">Header3_1</h3>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<div id="inp"><h2>Пример dropdown button с помощью CSS</h2></div>
+<!-- /.container --></html>

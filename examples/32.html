@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ru">
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+// load file example https://dl.dropboxusercontent.com/s/rhuecn2seku8mkt/sci.js?raw=1
+$(function(){
+$('#btn1').click(function () {
+ $('#list').load($('#l1').val(),function(responseTxt,statusTxt,xhr){
+      if(statusTxt=="success")
+         alert(responseTxt);
+      if(statusTxt=="error")
+        alert("Error: "+xhr.status+": "+xhr.statusText);
+    });
+   
+});
+});
+</script>
+</head>
+<body>
+<div id="page-wrap">
+  <h1>Reading XML with jQuery</h1>
+  <input type="button" value="view site" id="btn1" />
+  <input type="TEXT" SIZE="40" id="l1" value="https://dl.dropboxusercontent.com/s/rhuecn2seku8mkt/sci.js?raw=1"/>
+<br />
+<textarea id="list" ROWS="30" COLS="50"></textarea>
+</div>
+</body>
+</html>

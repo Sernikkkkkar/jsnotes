@@ -1,0 +1,29 @@
+﻿<!DOCTYPE HTML>
+<html lang="ru-RU">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script >
+$(function(){   	
+$("#btn").click(function(){
+$.getJSON( "https://dl.dropboxusercontent.com/s/r9jbcmis0zy1y8x/test.json?raw=1", function( data ) {
+  
+  var items = [];
+  $.each( data[0], function( key, val ) {
+    items.push( "<li id='" + key + "'>" + val + "</li>" );
+  });
+ 
+  $( "<ul/>", {
+    "class": "my-new-list",
+    html: items.join( "" )
+  }).appendTo( "body" );
+});
+})
+});
+  </script>
+</head>
+<body>
+ <button id="btn">Click</button> 
+</body>
+</html>

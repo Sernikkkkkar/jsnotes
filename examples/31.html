@@ -1,0 +1,28 @@
+<html>
+<head>
+<script type="text/javascript">
+function read(textFile){
+    var xhr=new XMLHttpRequest;
+    xhr.open('GET',textFile);
+    xhr.onload=show;
+    xhr.send()
+}
+
+function show(){
+    var pre=document.createElement('pre');
+    pre.textContent=this.response;
+    //document.body.appendChild(pre);
+    document.getElementById("test").appendChild(pre);
+}
+// https://www.dropbox.com/s/4v7zxp8yv9cg0u7/template.fb2?dl=0
+</script>
+<head>
+<body>
+<h1>Loading text file</h1>
+<div id="test"></div>
+<script type="text/javascript">
+read("https://dl.dropboxusercontent.com/s/4v7zxp8yv9cg0u7/template.fb2?raw=1");
+show();
+</script>
+</body>
+</html>

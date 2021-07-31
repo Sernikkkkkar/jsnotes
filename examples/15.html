@@ -1,0 +1,43 @@
+﻿<!DOCTYPE HTML>
+<html lang="ru-RU">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <style type="text/css">
+  .button {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 0px 0px 0px 0px;
+  float: left;
+  cursor: pointer;
+}
+ul,li {
+margin:0;
+padding:0;
+} 
+  </style>
+  <script type="text/javascript">
+function toggle_div(s) {
+ if (s.style.display=="none") s.style.display="block"
+ else s.style.display="none"
+}
+  </script>
+</head>
+<body onload='document.getElementById("cont").style.ddisplay="none"'>
+<h2>Пример меню в углу экрана.</h2>
+  <!-- command menu -->
+  <div id="main-menu-container2" style="position: fixed ;top: 0px; left:0; text-align: left;float:left;background:lightgrey;">
+  
+  <span style="float:left;background: #EEEEEE;" class="button"  onclick = 'toggle_div(document.getElementById("cont"))'> &nbsp;&sect; &nbsp; </span><br />
+     <div id="cont" style="height: 600px; overflow-y: scroll; display:none;">   
+      <a href="#" class="button">Item1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><br />
+      <button class="button" onclick='toggle_div(document.getElementById("sub"))'>Item2</button>
+      <ul id="sub" style="display:none"><li class="button">Item21</li></ul>
+      <br />
+      <button class="button">Item3</button>
+     </div>
+  </div>
+</body>
+</html>

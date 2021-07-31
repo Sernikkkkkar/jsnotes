@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="../assets/styles.min.css" rel="stylesheet">
+	<title>jQuery UI Dialog: Hide the Close Button/Title Bar</title>
+	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<style>
+	/* https://stackoverflow.com/questions/9389952/how-to-change-background-color-of-jquery-ui-dialog?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa*/
+		.dlg-no-close .ui-dialog-titlebar-close {
+			display: none;
+		}
+		.dlg-no-title .ui-dialog-titlebar {
+			display: none;
+		}
+		.ui-dialog ui-dialog
+		.ui-dialog-title {
+		background : black;
+		}
+		.ui-dialog-titlebar {
+		background : brown;
+		}
+		.ui-dialog-content {
+		background : yellow;
+		}
+		.ui-resizable-handle {
+		background : blue;
+		}
+		.ui-widget-content {
+		background : yellow;
+		}
+		.ui-dialog-buttonpane {
+		background : green;
+		}
+		
+		.ui-dialog-buttonset {
+		background : blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="dialog1" title="Dialog 1">
+		<p>This dialog has <code>.dlg-no-close</code> class applied to it. The close button is hidden via CSS.</p>
+		<p>Press Esc to dismiss the dialog.</p>
+	</div>
+	<div id="dialog2" title="Dialog 2">
+		<p>This dialog has <code>.dlg-no-title</code> class applied to it. The title bar is hidden via CSS.</p>
+		<p>Press Esc to dismiss the dialog.</p>
+	</div>
+	<button id="button1"><span class="ui-icon ui-icon-arrowthick-1-n"></span>Open dialog 1</button>
+	<input type="button" id="button2" value="Open dialog 2">
+	
+	<script>
+		/*
+		 * jQuery UI Dialog: Hide the Close Button/Title Bar
+		 * https://salman-w.blogspot.com/2013/05/jquery-ui-dialog-examples.html
+		 */
+		$(function() {
+			$("#dialog1").dialog({
+				autoOpen: false,
+				modal: true,
+				title:"example 1",
+				dialogClass: "dlg-no-close",
+				buttons: [
+    {
+      icons: { primary: "ui-icon-check" },
+      text: "OK",
+      
+      click: function() {
+        $( this ).dialog( "close" );
+      }
+     }
+     ]
+			});
+			$("#dialog2").dialog({
+				autoOpen: false,
+				modal: true,
+				dialogClass: "dlg-no-title",
+				width: "90%"
+			});
+			$("#button1").on("click", function() {
+				$("#dialog1").dialog("open");
+			});
+			$("#button2").on("click", function() {
+				$("#dialog2").dialog("open");
+			});
+		});
+	</script>

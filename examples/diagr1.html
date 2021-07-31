@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<title>MindFusion JsDiagram</title>
+	<meta name="description" content="НTML, canvas,json,diagram">
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+</head>
+<body>
+<div>
+   <canvas id="diagram" width="2100" height="2100">
+	This page requires a browser that supports HTML 5 Canvas element.
+   </canvas>
+</div>
+	
+	<script src="https://vuepress-2mvjfjyyu.now.sh/examples/MindFusion.Common.js" type="text/javascript"></script>
+	<script src="https://vuepress-2mvjfjyyu.now.sh/examples/MindFusion.Diagramming.js" type="text/javascript"></script>
+	<script type="text/javascript">
+/*исходные данные*/
+  var s0={
+  "block":[
+   {"id":"start",
+    "xy":[22.5, 10, 35, 15],
+    "type":"Circle", 
+    "text":"START\nClick to begin",
+    "click":function(){alert("my first diagram func")}},
+   {"id":"node1",
+    "xy":[85, 10, 60,15],
+    "type":"Rect", 
+    "text":"node 1 <a href=\"https://fb2lib.now.sh\">click</a>"},
+   {"id":"node2",
+    "xy":[85, 40, 60,15],
+    "type":"Rect",
+    "text":"node 2"},
+   {"id":"node3",
+    "id":"node3",
+    "xy":[10, 40, 60,15],
+    "type":"Rect",
+    "text":"node 3"},
+   {"id":"node4",
+    "xy":[10, 100, 60,15],
+    "type":"Rect",
+    "text":"node 4"},
+   {"id":"node5",
+     "xy":[85, 70, 60, 15],
+    "type":"Deci",
+    "text":"node 5"},
+    {"id":"end",
+     "xy":[22.5, 160, 35, 15],
+    "type":"Circle",
+    "click":function(){window.location="https://fb2lib.now.sh"},
+    "text":"END\nClick to reset"}
+  ],
+  "connect":[
+  {"a":"start,node1"},
+  {"a":"node1,node2"},
+  {"a":"node2,node3"},
+  {"a":"node5,end","t":"no"},
+  {"a":"node3,node5","port1":3},
+  {"a":"node4,end"},
+  {"a":"node5,node4","t":"yes","port1":1,"port2":0},
+  ]
+  }
+/*global vars*/
+var Diagram = MindFusion.Diagramming.Diagram;
+var ShapeNode = MindFusion.Diagramming.ShapeNode;
+var DiagramLink = MindFusion.Diagramming.DiagramLink;
+var HandlesStyle = MindFusion.Diagramming.HandlesStyle;
+var DiagramEvents = MindFusion.Diagramming.Events;
+var Rect = MindFusion.Drawing.Rect;
+var AnchorPattern = MindFusion.Diagramming.AnchorPattern;
+var AnchorPoint = MindFusion.Diagramming.AnchorPoint;
+var MarkStyle = MindFusion.Diagramming.MarkStyle;
+var select = MindFusion.Selection;
+var diagram;
+var startNode, endNode, nodes,anchorPattern;
+
+
+
+/*after loaded file*/
+document.addEventListener("DOMContentLoaded", function ()
+{
+
+	// create a Diagram component that wraps the "diagram" canvas
+	diagram = MindFusion.AbstractionLayer.createControl(Diagram, null, null, null, document.getElementById("diagram"));
+	diagram.setBehavior(MindFusion.Diagramming.Behavior.SelectOnly);
+	// attach event handlers
+	diagram.addEventListener(DiagramEvents.nodeClicked, onNodeClicked);
+		diagram.addEventListener(DiagramEvents.linkClicked, onLinkClicked);
+       //enhanced diagram view
+	diagram.setRoundedLinks(true); //закругления в месте перегиба
+        diagram.setRoundedLinksRadius(2);
+	// initialize the diagram
+	init(s0);
+});
+//node anchors
+ anchorPattern = new AnchorPattern([
+      new AnchorPoint(50, 0, true, false, MarkStyle.Rectangle, "#ff0000", 1.5),
+      new AnchorPoint(0, 50, true, true, MarkStyle.Rectangle, "#008000", 1.5),
+      new AnchorPoint(100, 50, true, true, MarkStyle.Rectangle, "#008000", 1.5),
+      new AnchorPoint(50, 100, false, true, MarkStyle.Rectangle, "#008000", 1.5)
+ ]);
+function init(d)
+{
+  var sour=d.block;
+  var conn=d.connect;
+
+  //массив для задания узлов диаграммы
+  nodes=[]
+  nodes = diagram.nodes;
+ // create nodes
+ for (i=0;i<sour.length ;i++ )
+ {
+	 if (sour[i].type=="Rect") createRectangleNode(new Rect(sour[i].xy[0], sour[i].xy[1], sour[i].xy[2],sour[i].xy[3]), sour[i].text, sour[i].id);
+	 if (sour[i].type=="Deci"){createDecisionNode(new Rect(sour[i].xy[0], sour[i].xy[1], sour[i].xy[2],sour[i].xy[3]), sour[i].text, sour[i].id)}
+	 if (sour[i].type=="Circle"){ createCircleNode(new Rect(sour[i].xy[0], sour[i].xy[1], sour[i].xy[2],sour[i].xy[3]), sour[i].text, sour[i].id);}
+ }
+ //Create node anchors	
+ for (k=0;k<nodes.length;k++){
+	 nodes[k].setAnchorPattern(anchorPattern);
+ }
+ //define some nodes
+	startNode =nodes[0];
+	endNode =nodes[sour.length-1]
+   //create links
+  for (j=0;j<conn.length;j++) {
+     createLink(sour,conn[j])
+ }
+ diagram.routeAllLinks();//для построения связей с помощью ломанных.
+}
+function createCircleNode(bounds, text,id)
+{
+	var node = new ShapeNode(diagram);
+	node.setShape('Circle');
+	node.setBrush('#ce0000');
+	node.setText(text);
+	node.id=id
+	node.setBounds(bounds);
+	diagram.addItem(node);
+	return node;
+}
+
+function createRectangleNode(bounds, text,id)
+{
+	var node = new ShapeNode(diagram);
+	node.setVisible(true);
+	node.setShape('Rectangle');
+	node.setBrush('#5a79a5');
+	node.setText(text);
+	node.setBounds(bounds);
+	node.setEnableStyledText(true)
+	node.id=id
+	diagram.addItem(node);
+}
+
+function createDecisionNode(bounds, text,id)
+{ 
+        
+	var node = new ShapeNode(diagram);
+	node.setVisible(true);
+	node.setBounds(bounds);
+	node.setShape('Decision');
+	node.setBrush('#a0c0c0');
+	node.setText(text);
+	node.id=id
+	diagram.addItem(node);
+}
+
+function createLink(arr,c)
+{
+	var l=c.a.split(",")
+	var l1=getnum(arr,"id",l[0])*1;
+	var l2=getnum(arr,"id",l[1])*1;
+	var link = new DiagramLink(diagram, nodes[l1], nodes[l2]);
+	link.setVisible(true);
+	link.setHeadShape('Triangle');
+	link.setHeadBrush('#003466');
+	link.setStrokeThickness(3.0); //толщина линии
+	link.setBrush("#ffffff");
+	if (c.t)
+	{
+		link.addLabel(c.t);
+	}
+	diagram.addItem(link);
+	if (c.port1!=undefined) {
+	  link.setOriginAnchor(c.port1*1);
+	}
+	if (c.port2!=undefined) {
+	  link.setDestinationAnchor(c.port2*1);
+	  
+	}
+}
+
+function onLinkClicked(sender, args)
+{
+
+var link = args.getLink();
+link.setPen("#ff0000");
+}
+
+function onNodeClicked(sender, args)
+{
+	var node = args.getNode();
+	if (node.id)
+	{
+	  var num=getnum(s0.block, "id",node.id)
+	  if(s0.block[num].click)
+	    s0.block[num].click()
+	}
+	
+}
+
+
+function getnum(arr, key,val){
+ for (i=0;i<arr.length ;i++ )
+  {
+   if(arr[i][key]==val) break;
+  }
+return i; 
+}	
+	</script>
+</body>
+</html>

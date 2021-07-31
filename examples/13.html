@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+
+<title>
+Dropdown Tree
+</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="dropdowntree.css">
+
+</head>
+<body>
+
+	
+
+<hr/>
+<h3>Основной пример:</h3><div class="dropdown dropdown-tree" id="firstDropDownTree2"></div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="dropdowntree.js"></script>
+
+
+<script>
+var arr4=[
+{title:"St Fatima",href:"#1",dataAttrs:[{title:"dataattr1",data:"value1"},{title:"dataattr2",data:"value2"},{title:"dataattr3",data:"value3"}]}
+,
+{title:"Korba",href:"#2",dataAttrs:[{title:"dataattr4",data:"value4"},{title:"dataattr5",data:"value5"},{title:"dataattr6",data:"value6"}]}
+,
+{title:"Roxi",href:"#3",dataAttrs:[{title:"dataattr7",data:"value7"},{title:"dataattr8",data:"value8"},{title:"dataattr9",data:"value9"}]}
+];
+
+var arr3=[
+{title:"Abbas Al Akkad",href:"#1",dataAttrs:[{title:"dataattr1",data:"value1"},{title:"dataattr2",data:"value2"},{title:"dataattr3",data:"value3"}]}
+,
+{title:"Makram Obeid",href:"#2",dataAttrs:[{title:"dataattr4",data:"value4"},{title:"dataattr5",data:"value5"},{title:"dataattr6",data:"value6"}],data:arr4}
+,
+{title:"Mostafa Al Nahas",href:"#3",dataAttrs:[{title:"dataattr7",data:"value7"},{title:"dataattr8",data:"value8"},{title:"dataattr9",data:"value9"}]}
+];
+var options2 = {
+	title : "Areas 1",
+	data: arr3,
+	maxHeight: 3000,
+	clickHandler: function(element){
+				//gets clicked element parents
+		console.log($(element).GetParents());
+		//element is the clicked element
+		console.log(element);
+		$("#firstDropDownTree2").SetTitle($(element).find("a").first().text());
+		console.log("Selected Elements",$("#firstDropDownTree2").GetSelected());
+	},
+	closedArrow: '<i class="fa fa-caret-right" aria-hidden="true"></i>',
+	openedArrow: '<i class="fa fa-caret-down" aria-hidden="true"></i>',
+	multiSelect: true,
+}
+$("#firstDropDownTree2").DropDownTree(options2);
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

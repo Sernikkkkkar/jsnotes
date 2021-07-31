@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="windows-1251">
+  <title>Тег audio</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="НTML, tag, audio">
+  <meta name="viewport" content="width=device-width">
+ </head>
+
+<body>
+  
+  <div id='au1'>
+   <audio id="demo" controls>
+    <source src="" type="audio/mpeg">
+   </audio>
+  </div>
+  <h3>Загрузка данных</h3>
+   <button onclick="y_read()">Playlist</button>
+   <input id="audio_file" type="file" accept="audio/*" />
+ <h3>Управление прослушиванием</h3>
+  <button onclick='playAudio()'>Play/Pause</button>
+  <b>Громкость </b>
+  <input id="volume" type="range" min="0.0" max="1" step="0.1" value="1" onchange='document.getElementById("vv").innerHTML=this.value;aud.volume=this.value'>
+  <span id="vv">1.0</span>
+ <h3>Другие свайства</h3>
+ <button onclick='alert(viewProperties(["duration","currentSrc","currentTime"]))'>Properties</button>
+<h3>Сохранение аудиофайла</h3>
+ <button onclick='dl()'>Save</button>
+ <a id='lnk' href="" id="link-element" style="display:hidden;">Download audio</a> 
+ <script>
+ var aud = document.getElementById("demo");
+ /*Обработка событий*/
+ aud.onended = function() {
+    next_item();    
+};
+aud.onloadeddata = function() {
+    aud.play();
+};
+/*Плейлист*/
+ var s=[
+     "http://tts.voicetech.yandex.net/tts?text=hello&speaker=jane&format=mp3&quality=hi&platform=web&application=translate&lang=ru_RU",
+     "http://tts.voicetech.yandex.net/tts?text=%D0%B4%D0%BE%20%D1%81%D0%BA%D0%BE%D1%80%D1%8B%D1%85%20%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87&speaker=jane&format=mp3&quality=hi&platform=web&application=translate&lang=ru_RU",
+     "http://tts.voicetech.yandex.net/tts?text=goodbye&speaker=jane&format=mp3&quality=hi&platform=web&application=translate&lang=ru_RU"
+]
+  var n=0;
+ /*Загрузка из сети*/
+ function y_read() {
+  aud.src=s[0];
+ }
+ function  viewProperties(prop)
+ {
+  var s=""
+  for (i=0;i<prop.length;i++) {
+    s+=prop[i] +" : "+aud[prop[i]]+"\n"
+  }
+ return s;
+ }
+ /*загрузка из плейлиста */
+ function next_item() {
+ n=n+1
+ if (n>s.length-1) n=0;
+ aud.src=s[n];
+ }
+ 
+/*управление прослушиванием*/
+function playAudio() {
+ if (aud.paused) aud.play();
+ else aud.pause();
+}
+/*Сохранение аудиофайла*/
+function dl()
+{
+var linkTag = document.getElementById('lnk');
+linkTag.href = aud.src;
+linkTag.download = 'audio-file';
+linkTag.click(); 
+}
+/*загрузка с помощью тега file*/
+ audio_file.onchange = function(){
+  var files = this.files;
+  var file = URL.createObjectURL(files[0]);
+  alert(file) 
+   aud.src = file; 
+
+};  
+</script>
+</body>
+</html>

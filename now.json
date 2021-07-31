@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "vuepress",
+  "builds": [
+    { "src": "examples/*.html", "use": "@now/static" },
+    { "src": "examples/*.js", "use": "@now/static" },
+    { "src": "examples/*.css", "use": "@now/static" },
+    { "src": "examples/electro/*.svg", "use": "@now/static" },
+    { "src":"_/*.md", "use": "@now/md" },
+    {"src": "package.json", "use": "@now/static-build"}
+  ]
+}

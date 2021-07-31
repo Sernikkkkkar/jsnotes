@@ -1,0 +1,108 @@
+﻿<!DOCTYPE HTML>
+<html lang="ru-RU">
+<head>
+  <title>mp3 и base64</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="audio, Web Audio API, base64, binary">
+  <style type="text/css">
+/* 
+original:
+https://github.com/dondido/MP3-to-Base64-Encoder-and-Decoder
+*/  
+  </style>
+</head>
+<body>
+ <h2>Преобразование MP3 в base64</h2>
+ <p>В примере покзана реализация преобразование двоичного mp3 файла в текстовый base64 и прослушивание этого файла с помощью Web Audio API</p>
+<h3>Загрузка mp3</h3>
+<input type="file" accept="audio/*">
+&nbsp;&nbsp;
+<button onclick='loadSoundFile("http://tts.voicetech.yandex.net/tts?text=%D0%B4%D0%BE%20%D1%81%D0%BA%D0%BE%D1%80%D1%8B%D1%85%20%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87&speaker=jane&format=mp3&quality=hi&platform=web&application=translate&lang=ru_RU");'>Загрузка по ссылке</button>
+<h3>Управление прослушиванием</h3>
+<button onclick="playSound()" disabled>Start</button>
+<button onclick="stopSound()" disabled>Stop</button>
+<div>
+<p>Содержимое строки base64, представляющей звуковой файл.</p>
+<textarea id="encodedResult" cols="100" rows="10">
+</textarea>
+</div>
+<script type="text/javascript">
+/*
+https://codepen.io/xewl/pen/NjyRJx
+*/
+/*глобальные переменные*/  
+var context = new AudioContext();
+var source = null;
+var audioBuffer = null;
+// Converts an ArrayBuffer to base64, by converting to string 
+// and then using window.btoa' to base64. 
+var bufferToBase64 = function (buffer) {
+    var bytes = new Uint8Array(buffer);
+    var len = buffer.byteLength;
+    var binary = "";
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+};
+/*string to binary*/
+var base64ToBuffer = function (buffer) {
+    var binary = window.atob(buffer);
+    var buffer = new ArrayBuffer(binary.length);
+    var bytes = new Uint8Array(buffer);
+    for (var i = 0; i < buffer.byteLength; i++) {
+        bytes[i] = binary.charCodeAt(i) & 0xFF;
+    }
+    return buffer;
+};
+/*control sound*/
+function stopSound() {
+    if (source) {
+        source.stop(0);
+    }
+}
+function playSound() {
+    // source is global so we can call .stop() later.
+    source = context.createBufferSource();
+    source.buffer = audioBuffer;
+    source.loop = false;
+    source.connect(context.destination);
+    source.start(0); // Play immediately.
+}
+function initSound(arrayBuffer) {
+    var base64String = bufferToBase64(arrayBuffer);
+    var audioFromString = base64ToBuffer(base64String);
+    document.getElementById("encodedResult").value=base64String;
+    context.decodeAudioData(audioFromString, function (buffer) {
+        // audioBuffer is global to reuse the decoded audio later.
+        audioBuffer = buffer;
+        var buttons = document.querySelectorAll('button');
+        buttons[0].disabled = false;
+        buttons[1].disabled = false;
+    }, function (e) {
+        console.log('Error decoding file', e);
+    });
+}
+// User selects file, read it as an ArrayBuffer and pass to the API.
+var fileInput = document.querySelector('input[type="file"]');
+fileInput.addEventListener('change', function (e) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        initSound(this.result);
+    };
+    reader.readAsArrayBuffer(this.files[0]);
+}, false);
+// Load file from a URL as an ArrayBuffer.
+// Example: loading via xhr2: loadSoundFile('sounds/test.mp3');
+function loadSoundFile(url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function (e) {
+        initSound(this.response); // this.response is an ArrayBuffer.
+    };
+    xhr.send();
+}  
+  </script> 
+</body>
+</html>
